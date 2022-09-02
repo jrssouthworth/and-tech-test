@@ -1,6 +1,6 @@
 #Create VPC
 resource "aws_vpc" "and_vpc" {
-  cidr_block           = var.and_vpc
+  cidr_block = var.and_vpc
 }
 
 #Create 3 Public Subnets, 1 per AZ
@@ -17,10 +17,10 @@ resource "aws_subnet" "public_subnet" {
 
 #Create 3 Private Subnets, 1 per AZ
 resource "aws_subnet" "private_subnet" {
-  count             = var.and_vpc == "10.0.0.0/16" ? 3 : 0
-  vpc_id            = aws_vpc.and_vpc.id
-  availability_zone = data.aws_availability_zones.azs.names[count.index]
-  cidr_block        = cidrsubnet(var.and_vpc, 8, 4 + count.index)
+  count                   = var.and_vpc == "10.0.0.0/16" ? 3 : 0
+  vpc_id                  = aws_vpc.and_vpc.id
+  availability_zone       = data.aws_availability_zones.azs.names[count.index]
+  cidr_block              = cidrsubnet(var.and_vpc, 8, 4 + count.index)
   map_public_ip_on_launch = false
 
   tags = {
@@ -62,8 +62,8 @@ resource "aws_route_table_association" "public_rt_association" {
 
 #Get Elastic IP for NAT
 resource "aws_eip" "eip_nat" {
-  count            = length(aws_subnet.public_subnet) == 3 ? 3 : 0
-  vpc              = true
+  count = length(aws_subnet.public_subnet) == 3 ? 3 : 0
+  vpc   = true
 
   tags = {
     "Name" = "EIP-NAT-${count.index}"
@@ -84,7 +84,7 @@ resource "aws_nat_gateway" "nat_gateway" {
 #Create Route Table targetting NAT Gateway
 resource "aws_route_table" "NAT_route_table" {
   vpc_id = aws_vpc.and_vpc.id
-  count            = length(aws_nat_gateway.nat_gateway) == 3 ? 3 : 0
+  count  = length(aws_nat_gateway.nat_gateway) == 3 ? 3 : 0
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -98,7 +98,7 @@ resource "aws_route_table" "NAT_route_table" {
 
 #Create Private Route Table Association
 resource "aws_route_table_association" "private_rt_association" {
-count            = 3
+  count = 3
 
 
   subnet_id      = element(aws_subnet.private_subnet.*.id, count.index)

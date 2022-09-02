@@ -1,12 +1,12 @@
 #Create EC2 Instances 
 resource "aws_instance" "instance" {
-  count                = length(aws_subnet.private_subnet.*.id)
-  ami                  = var.ami_id
-  instance_type        = var.instance_type
-  subnet_id            = element(aws_subnet.private_subnet.*.id, count.index)
-  security_groups      = [aws_security_group.sg.id, ]
+  count           = length(aws_subnet.private_subnet.*.id)
+  ami             = var.ami_id
+  instance_type   = var.instance_type
+  subnet_id       = element(aws_subnet.private_subnet.*.id, count.index)
+  security_groups = [aws_security_group.sg.id, ]
 
-  user_data     = <<-EOF
+  user_data = <<-EOF
                   #!/bin/bash
                   sudo su
                   apt-get update -y
@@ -17,7 +17,7 @@ resource "aws_instance" "instance" {
                   EOF
 
   tags = {
-    "Name"        = "Ubuntu-Web-${count.index}"
+    "Name" = "Ubuntu-Web-${count.index}"
   }
 
 }

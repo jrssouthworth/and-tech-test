@@ -8,7 +8,7 @@ variable "and_vpc" {
 
 variable "region" {
   description = "AWS Deployment Region"
-  default = "eu-west-1"
+  default     = "eu-west-1"
 }
 
 #EC2 Variables

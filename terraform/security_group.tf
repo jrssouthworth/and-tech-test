@@ -9,7 +9,7 @@ locals {
       port        = 80
       description = "Ingress 80"
     },
-   ]
+  ]
 
 }
 
