@@ -1,6 +1,6 @@
 #Create Target Group
 resource "aws_lb_target_group" "tg" {
-  name        = "TargetGroup"
+  name        = "web-ec2"
   port        = 80
   target_type = "instance"
   protocol    = "HTTP"
