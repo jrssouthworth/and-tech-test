@@ -15,7 +15,7 @@ locals {
 
 resource "aws_security_group" "sg" {
 
-  name        = "CustomSG"
+  name        = "web-sg"
   description = "Allow all outbound, HTTPS, HTTP and SSH inbound"
   vpc_id      = aws_vpc.and_vpc.id
   egress = [
